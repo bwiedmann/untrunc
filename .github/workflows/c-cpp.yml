@@ -16,10 +16,8 @@ jobs:
       with:
         submodules: 'true'
     - name: Set up NASM
-      # You may pin to the exact commit or the version.
-      # uses: ilammy/setup-nasm@e2335e5fc95548c09cd2deea2768793e0e8f0941
       uses: ilammy/setup-nasm@v1.2.1
     - name: configure and make libav
       run: cd libav && ./configure && make
     - name: make
-      run: cd .. && g++ -o untrunc -I./libav file.cpp main.cpp track.cpp atom.cpp codec_*.cpp codecstats.cpp codec.cpp mp4.cpp log.cpp -L./libav/libavformat -lavformat -L./libav/libavcodec -lavcodec -L./libav/libavresample -lavresample -L./libav/libavutil -lavutil -lpthread -lz
+      run: g++ -o untrunc -I./libav file.cpp main.cpp track.cpp atom.cpp codec_*.cpp codecstats.cpp codec.cpp mp4.cpp log.cpp -L./libav/libavformat -lavformat -L./libav/libavcodec -lavcodec -L./libav/libavresample -lavresample -L./libav/libavutil -lavutil -lpthread -lz
