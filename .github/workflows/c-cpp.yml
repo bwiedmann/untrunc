@@ -15,6 +15,10 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: 'true'
+    - name: Set up NASM
+      # You may pin to the exact commit or the version.
+      # uses: ilammy/setup-nasm@e2335e5fc95548c09cd2deea2768793e0e8f0941
+      uses: ilammy/setup-nasm@v1.2.1
     - name: configure and make libav
       run: cd libav && ./configure && make
     - name: make
