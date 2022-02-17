@@ -31,11 +31,11 @@ jobs:
          echo -e "ref: $GITHUB_REF \ncommit: $GITHUB_SHA\nbuild: $(date +"%Y-%m-%dT%H:%M:%SZ")" \
          > info.txt
     - name: Update nightly release
-      uses: eine/tip@master
+      uses: pyTooling/Actions/releaser@main
       with:
         tag: nightly
         rm: true
         token: ${{ secrets.GITHUB_TOKEN }}
-        files: 
-          - untrunc
-          - info.txt
+        files: |
+          untrunc
+          info.txt
