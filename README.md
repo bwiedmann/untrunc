@@ -1,6 +1,8 @@
 Untrunc
 =======
 
+[![C/C++ CI](https://github.com/bwiedmann/untrunc/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/bwiedmann/untrunc/actions/workflows/c-cpp.yml)
+
 Restore a damaged (truncated) mp4, m4v, mov, 3gp video. Provided you have a similar not broken video. And some luck. Also works the same way with audio like m4a.
 
 You need:
@@ -84,10 +86,10 @@ Depending on your system and Libav configure options you might need to add extra
 - add `-lvdpau` for errors like `undefined reference to 'VDPAU...'`,
 - add `-ldl`    for errors like `undefined reference to 'dlopen'`.
 
-On macOS add the following (tested on OSX 10.12.6):
-- add `-framework CoreFoundation -framework CoreVideo -framework VideoDecodeAcceleration`.
+On macOS add the following (tested on OSX 12.2.1):
+- add `-framework CoreFoundation -framework CoreVideo -framework VideoDecodeAcceleration -std=c++11 `.
 
-### Mac OSX
+### macOS
 
 Follow the above steps for "Installing on other operating system", but use the following g++ command:
 
