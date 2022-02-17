@@ -13,6 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: 'true'
     - name: configure and make libav
       run: cd untrunc/libav && ./configure && make
     - name: make
