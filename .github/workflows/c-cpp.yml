@@ -15,6 +15,11 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: 'true'
+    - name: Cache
+      uses: actions/cache@v2.1.7
+      with:
+        path: libav
+        key: libav
     - name: Set up NASM
       uses: ilammy/setup-nasm@v1.2.1
     - name: configure and make libav
