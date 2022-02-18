@@ -79,16 +79,19 @@ jobs:
         with:
           name: pass_status_build_macos
       - name: List artifacts
-        run: ls -R
+        run: ls -laR
+      - name: Compress artifacts
+        run: | 
+          tar cfvz untrunc-darwin.tgz info-darwin.txt untrunc-darwin
+          tar cfvz untrunc-linux.tgz info-darwin.txt untrunc-linux
+      - name: List compressed artifacts
+        run: ls -laR
       - name: Update nightly release
         uses: pyTooling/Actions/releaser@main
         with:
           tag: nightly
           rm: true
           token: ${{ secrets.GITHUB_TOKEN }}
-          files: |
-            info-linux.txt
-            untrunc-linux
-            info-darwin.txt
-            untrunc-darwin
-
+          files: |            
+            untrunc-darwin.tgz
+            untrunc-linux.tgz            
