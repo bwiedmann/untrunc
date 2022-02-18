@@ -19,17 +19,24 @@ jobs:
         uses: actions/cache@v2.1.7
         with:
           path: libav
-          key: libav-${{ runner.os }}
+          key: libav-darwin
       - name: Set up NASM
         uses: ilammy/setup-nasm@v1.2.1
       - name: configure and make libav
         run: cd libav && ./configure && make
       - name: make
-        run: g++ -o untrunc-${{ runner.os }} -I./libav file.cpp main.cpp track.cpp atom.cpp codec_*.cpp codecstats.cpp codec.cpp mp4.cpp log.cpp -L./libav/libavformat -lavformat -L./libav/libavcodec -lavcodec -L./libav/libavresample -lavresample -L./libav/libavutil -lavutil -lpthread -lz -lbz2 -framework CoreFoundation -framework CoreVideo -framework VideoDecodeAcceleration -std=c++11
+        run: g++ -o untrunc-darwin -I./libav file.cpp main.cpp track.cpp atom.cpp codec_*.cpp codecstats.cpp codec.cpp mp4.cpp log.cpp -L./libav/libavformat -lavformat -L./libav/libavcodec -lavcodec -L./libav/libavresample -lavresample -L./libav/libavutil -lavutil -lpthread -lz -lbz2 -framework CoreFoundation -framework CoreVideo -framework VideoDecodeAcceleration -std=c++11
       - name: Create info file
         run: |
            echo -e "ref: $GITHUB_REF \ncommit: $GITHUB_SHA\nbuild: $(date +"%Y-%m-%dT%H:%M:%SZ")" \
-           > info-${{ runner.os }}.txt
+           > info-darwin.txt
+      - name: Upload files as artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: pass_status_build_macos
+          path: |
+            untrunc-darwin
+            info-darwin.txt
 
   build-linux:
     runs-on: ubuntu-latest
@@ -41,33 +48,47 @@ jobs:
         uses: actions/cache@v2.1.7
         with:
           path: libav
-          key: libav-${{ runner.os }}
+          key: libav-linux
       - name: Set up NASM
         uses: ilammy/setup-nasm@v1.2.1
       - name: configure and make libav
         run: cd libav && ./configure && make
       - name: make
-        run: g++ -o untrunc-${{ runner.os }} -I./libav file.cpp main.cpp track.cpp atom.cpp codec_*.cpp codecstats.cpp codec.cpp mp4.cpp log.cpp -L./libav/libavformat -lavformat -L./libav/libavcodec -lavcodec -L./libav/libavresample -lavresample -L./libav/libavutil -lavutil -lpthread -lz -lbz2
+        run: g++ -o untrunc-linux -I./libav file.cpp main.cpp track.cpp atom.cpp codec_*.cpp codecstats.cpp codec.cpp mp4.cpp log.cpp -L./libav/libavformat -lavformat -L./libav/libavcodec -lavcodec -L./libav/libavresample -lavresample -L./libav/libavutil -lavutil -lpthread -lz -lbz2
       - name: Create info file
         run: |
            echo -e "ref: $GITHUB_REF \ncommit: $GITHUB_SHA\nbuild: $(date +"%Y-%m-%dT%H:%M:%SZ")" \
-           > info-${{ runner.os }}.txt           
+           > info-linux.txt
       - name: Upload files as artifact
-        if: always()
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: pass_status_build_linux
-          path: untrunc-${{ runner.os }}
+          path: |
+            untrunc-linux
+            info-linux.txt
 
   bundle-nightly-release:
     needs: [build-macos, build-linux]
     runs-on: ubuntu-latest
     steps:
+      #- uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: pass_status_build_linux
+      - uses: actions/download-artifact@v2
+        with:
+          name: pass_status_build_macos
+      - name: List artifacts
+        run: ls -R
       - name: Update nightly release
         uses: pyTooling/Actions/releaser@main
         with:
-          tag: nightly-${{ runner.os }}
+          tag: nightly
           rm: true
           token: ${{ secrets.GITHUB_TOKEN }}
           files: |
-            untrunc-${{ runner.os }}
+            info-linux.txt
+            untrunc-linux
+            info-darwin.txt
+            untrunc-darwin
+
