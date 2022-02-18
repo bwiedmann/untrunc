@@ -11,6 +11,11 @@ You need:
 * [Libav 12](https://libav.org/)
 * Basic ability to use a command line
 
+## Using a Nightly Build instead of self compiling
+
+Nightly Builds are uploaded here:
+https://github.com/bwiedmann/untrunc/releases/nightly
+
 ## Installing on CentOS 7
 
     yum install https://extras.getpagespeed.com/release-el7-latest.rpm
