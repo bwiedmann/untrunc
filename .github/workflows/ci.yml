@@ -31,7 +31,7 @@ jobs:
            echo -e "ref: $GITHUB_REF \ncommit: $GITHUB_SHA\nbuild: $(date +"%Y-%m-%dT%H:%M:%SZ")" \
            > info-darwin.txt
       - name: Upload files as artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: pass_status_build_macos
           path: |
