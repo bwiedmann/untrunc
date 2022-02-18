@@ -82,7 +82,7 @@ jobs:
         run: ls -laR
       - name: Compress artifacts
         run: |
-          chmod +x unctrunc-darwin untrunc-linux
+          chmod +x untrunc-darwin untrunc-linux
           tar cfvz untrunc-darwin.tgz info-darwin.txt untrunc-darwin
           tar cfvz untrunc-linux.tgz info-darwin.txt untrunc-linux
       - name: List compressed artifacts
