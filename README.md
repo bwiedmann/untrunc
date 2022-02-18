@@ -20,7 +20,7 @@ You need:
 
 Type the following commands to build from git :
 ```bash
-git clone --recurse-submodules https://github.com/ponchio/untrunc
+git clone --recurse-submodules https://github.com/bwiedmann/untrunc
 cd untrunc/libav
 ./configure
 make
@@ -49,9 +49,9 @@ Download the Libav sources from either [the download page](https://libav.org/dow
     wget https://libav.org/releases/libav-12.3.tar.xz
     [or:  wget https://github.com/libav/libav/archive/v12.3.zip ]
 
-Download the source code from GitHub at https://github.com/ponchio/untrunc
+Download the source code from GitHub at https://github.com/bwiedmann/untrunc
 
-    wget https://github.com/ponchio/untrunc/archive/master.zip
+    wget https://github.com/bwiedmann/untrunc/archive/master.zip
 
 Unzip the Untrunc source code:
 
