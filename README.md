@@ -1,7 +1,7 @@
 Untrunc
 =======
 
-[![C/C++ CI](https://github.com/bwiedmann/untrunc/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/bwiedmann/untrunc/actions/workflows/c-cpp.yml)
+[![CI](https://github.com/bwiedmann/untrunc/actions/workflows/ci.yml/badge.svg)](https://github.com/bwiedmann/untrunc/actions/workflows/ci.yml)
 
 Restore a damaged (truncated) mp4, m4v, mov, 3gp video. Provided you have a similar not broken video. And some luck. Also works the same way with audio like m4a.
 
