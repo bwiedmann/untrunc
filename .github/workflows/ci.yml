@@ -25,8 +25,16 @@ jobs:
       - name: configure and make libav
         run: cd libav && ./configure && make
       - name: make
-        run: g++ -o untrunc-darwin -I./libav file.cpp main.cpp track.cpp atom.cpp codec_*.cpp codecstats.cpp codec.cpp mp4.cpp log.cpp -L./libav/libavformat -lavformat -L./libav/libavcodec -lavcodec -L./libav/libavresample -lavresample -L./libav/libavutil -lavutil -lpthread -lz -lbz2 -framework CoreFoundation -framework CoreVideo -framework VideoDecodeAcceleration -std=c++11
-        
+        run: g++ -o untrunc-${{ runner.os }} -I./libav file.cpp main.cpp track.cpp atom.cpp codec_*.cpp codecstats.cpp codec.cpp mp4.cpp log.cpp -L./libav/libavformat -lavformat -L./libav/libavcodec -lavcodec -L./libav/libavresample -lavresample -L./libav/libavutil -lavutil -lpthread -lz -lbz2 -framework CoreFoundation -framework CoreVideo -framework VideoDecodeAcceleration -std=c++11
+      - name: Update nightly release
+        uses: pyTooling/Actions/releaser@main
+        with:
+          tag: nightly-${{ runner.os }}
+          rm: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: |
+            untrunc-${{ runner.os }}
+            info-${{ runner.os }}.txt
 
   build-linux:
     runs-on: ubuntu-latest
@@ -44,17 +52,17 @@ jobs:
       - name: configure and make libav
         run: cd libav && ./configure && make
       - name: make
-        run: g++ -o untrunc-linux -I./libav file.cpp main.cpp track.cpp atom.cpp codec_*.cpp codecstats.cpp codec.cpp mp4.cpp log.cpp -L./libav/libavformat -lavformat -L./libav/libavcodec -lavcodec -L./libav/libavresample -lavresample -L./libav/libavutil -lavutil -lpthread -lz -lbz2
+        run: g++ -o untrunc-${{ runner.os }} -I./libav file.cpp main.cpp track.cpp atom.cpp codec_*.cpp codecstats.cpp codec.cpp mp4.cpp log.cpp -L./libav/libavformat -lavformat -L./libav/libavcodec -lavcodec -L./libav/libavresample -lavresample -L./libav/libavutil -lavutil -lpthread -lz -lbz2
       - name: Create info file
         run: |
            echo -e "ref: $GITHUB_REF \ncommit: $GITHUB_SHA\nbuild: $(date +"%Y-%m-%dT%H:%M:%SZ")" \
-           > info.txt
+           > info-${{ runner.os }}.txt
       - name: Update nightly release
         uses: pyTooling/Actions/releaser@main
         with:
-          tag: nightly
+          tag: nightly-${{ runner.os }}
           rm: true
           token: ${{ secrets.GITHUB_TOKEN }}
           files: |
-            untrunc-linux
-            info.txt
+            untrunc-${{ runner.os }}
+            info-${{ runner.os }}.txt
